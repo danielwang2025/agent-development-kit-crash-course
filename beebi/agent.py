@@ -1,10 +1,9 @@
-from google.adk.agents import Agent 
-from .sleep.agent import root_agent as sleep_agent
-from .feed.agent import root_agent as feed_agent
-from .diaper.agent import root_agent as diaper_agent  # 新增导入
-from .report.agent import root_agent as report_agent 
-# 可选工具列表，如有扩展功能可以加入
-# from tools import get_current_time 等
+'''from google.adk.agents import Agent 
+
+from beebi.sleep.agent import root_agent as sleep_agent
+from beebi.feed.agent import root_agent as feed_agent
+from beebi.diaper.agent import root_agent as diaper_agent
+from beebi.report.agent import root_agent as report_agent
 
 root_agent = Agent(
     name="baby_care_manager",
@@ -53,3 +52,38 @@ Your tone should be supportive, organized, and calm — like a kind and reliable
         report_agent
     ],
 )
+
+'''
+
+
+from google.adk.agents import Agent 
+
+from beebi.sleep.agent import root_agent as sleep_agent
+
+
+root_agent = Agent(
+    name="baby_care_manager",
+    model="gemini-2.0-flash",
+    description="A manager agent for baby care analytics.",
+    instruction="""
+You are a manager agent responsible for overseeing baby care analytics tasks.
+
+Your primary responsibility is to analyze the user's question and **delegate it to the most appropriate specialized agent** listed below:
+
+- Use `sleep_agent` for questions related to sleep:
+  - sleep time and duration (入睡时间、睡眠时长)
+  - number of naps (白天小睡次数)
+  - night wake-ups (夜醒次数)
+  - overall sleep rhythm (作息规律性)
+
+If the user's question is ambiguous (e.g. “最近宝宝状态怎么样”), gently ask them to clarify which aspect they are referring to — feeding, sleep, diaper, or all combined — before proceeding.
+
+Always reply with a clear, helpful, and human-friendly explanation based on the delegated agent’s analysis.
+
+Your tone should be supportive, organized, and calm — like a kind and reliable assistant to new parents.
+""",
+    sub_agents=[
+        sleep_agent
+    ],
+)
+

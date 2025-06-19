@@ -1,4 +1,4 @@
-from google.adk.agents import Agent
+'''from google.adk.agents import Agent
 from .sub_agent.sleep_analysis_agent.agent import sleep_analysis_agent
 from .sub_agent.sleep_anomaly_detector.agent import sleep_anomaly_detector
 from .sub_agent.sleep_pattern_agent.agent import sleep_pattern_agent
@@ -39,6 +39,41 @@ Always respond with the selected agent(s) and forward the user query to them.
         sleep_pattern_agent,
         sleep_anomaly_detector,
         sleep_report_generator  # 即之前定义好的 format_report 的agent
+    ]
+)
+
+
+
+"""- sleep_insight_generator: Combines the outputs of the above agents to generate human-readable, actionable sleep insights (e.g., weekly summaries, personalized recommendations, etc.)"""
+"""- If the query is asking for a **comprehensive sleep insight**, combining patterns, anomalies, and analysis → delegate to `sleep_insight_generator`"""'''
+
+
+from google.adk.agents import Agent
+from .sub_agent.sleep_analysis_agent.agent import sleep_analysis_agent
+
+
+root_agent = Agent(
+    name="sleep_manager",
+    model="gemini-2.0-flash",
+    description="A manager agent that delegates sleep-related analysis tasks to appropriate sub-agents.",
+    instruction="""
+You are a manager agent that is responsible for overseeing the work of the following specialized agents:
+
+- sleep_analysis_agent: Performs general analysis on sleep data, including total sleep time, average duration, sleep efficiency, etc.
+
+## Your Responsibility:
+
+Given a user input or request, determine the most appropriate agent to handle it and **delegate** the task. You **must not attempt to answer the question yourself.**
+
+Use your best judgment based on the intent of the query. Choose the agent that is most capable of performing the task.
+
+You can delegate to **one or more agents** if needed.
+
+Always respond with the selected agent(s) and forward the user query to them.
+""",
+    sub_agents=[
+        sleep_analysis_agent,
+
     ]
 )
 
