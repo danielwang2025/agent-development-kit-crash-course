@@ -1,10 +1,9 @@
 from google.adk.agents import Agent 
-from .sleep.agent import root_agent as sleep_agent
-from .feed.agent import root_agent as feed_agent
-from .diaper.agent import root_agent as diaper_agent  # 新增导入
-from .report.agent import root_agent as report_agent 
-# 可选工具列表，如有扩展功能可以加入
-# from tools import get_current_time 等
+
+from beebi.sleep.agent import root_agent as sleep_agent
+from beebi.feed.agent import root_agent as feed_agent
+from beebi.diaper.agent import root_agent as diaper_agent
+from beebi.report.agent import root_agent as report_agent
 
 root_agent = Agent(
     name="baby_care_manager",
@@ -53,3 +52,4 @@ Your tone should be supportive, organized, and calm — like a kind and reliable
         report_agent
     ],
 )
+
